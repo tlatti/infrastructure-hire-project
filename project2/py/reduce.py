@@ -17,3 +17,5 @@ for vendor in data['vulnerabilities']:
 with open('results.json', 'w') as f:
   json.dump(vulncalc, f)
   f.write('\n')
+
+s3.upload_file('results.json', 'tl-incidents2', 'results.json')
