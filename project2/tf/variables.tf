@@ -16,7 +16,6 @@ variable "tags" {
   default = {
     environment = "prod"
     terraform = "true"
-    reports = "true"
   }
 }
 

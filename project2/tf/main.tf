@@ -45,19 +45,16 @@ resource "aws_iam_role" "kuber_service_role" {
 		]
 }
 
-## assign s3 to role
-#resource "aws_iam_role_policy_attachment" "kuberole-eks" {
-#  role       = aws_iam_role.kuber_service_role.name
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-#}
+module "vpc" {
+	source = "terraform-aws-modules/vpc/aws"
 
-# assign EKSCluster policy to role
-#resource "aws_iam_role_policy_attachment" "kuberole-eks" {
-#  role       = aws_iam_role.kuber_service_role.name
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-#}
+	name = "kube-vpc"
+	cidr = "10.0.0.0/16"
 
-# resource "aws_iam_role_policy_attachment" "attach" {
-#	role = aws_iam_role.kuberole
-#	policy_arn = aws_iam_policy.AmazonEKSClusterPolicy
-#}
+	azs = [ "us-east-1a", "us-east-1b", "us-east-1c" ]
+	private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+
+	tags = {
+	  private_vpc = "true"
+	}
+}
