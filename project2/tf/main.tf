@@ -45,6 +45,7 @@ resource "aws_iam_role" "kuber_service_role" {
 		]
 }
 
+# create the VPC for EKS
 module "vpc" {
 	source = "terraform-aws-modules/vpc/aws"
 
