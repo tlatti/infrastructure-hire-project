@@ -31,7 +31,7 @@ variable "acl" {
   default = "private"
 }
 
-variable "cluster-name" {
+variable "cluster_name" {
   type = string
   description = "EKS cluster name"
   default = "tl-eks-cluster"
