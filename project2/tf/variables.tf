@@ -16,7 +16,6 @@ variable "tags" {
   default = {
     environment = "prod"
     terraform = "true"
-    reports = "true"
   }
 }
 
@@ -30,4 +29,10 @@ variable "acl" {
   type = string
   description = "Set default to private"
   default = "private"
+}
+
+variable "cluster_name" {
+  type = string
+  description = "EKS cluster name"
+  default = "tl-eks-cluster"
 }
