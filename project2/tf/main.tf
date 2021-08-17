@@ -122,10 +122,11 @@ resource "aws_security_group" "all_worker_mgmt" {
   }
 }
 
+# Create EKS cluster
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.cluster_name
-  cluster_version = "1.20"
+  cluster_version = "1.21"
   subnets         = module.vpc.private_subnets
 
   tags = {
@@ -152,10 +153,11 @@ module "eks" {
       additional_userdata           = "echo foo bar"
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
       asg_desired_capacity          = 1
-    },
+    }
   ]
 }
 
+# This has to be set, otherwise we don't get the config ack
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
@@ -168,4 +170,14 @@ data "aws_eks_cluster" "cluster" {
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
+}
+
+# Create ECR registry
+resource "aws_ecr_repository" "blaa" {
+	name = "tl-ecr-registry"
+	image_tag_mutability = "MUTABLE"
+
+	tags = {
+	  environment = "prod"
+	}
 }
