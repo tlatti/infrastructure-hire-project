@@ -36,3 +36,4 @@ variable "cluster_name" {
   description = "EKS cluster name"
   default = "tl-eks-cluster"
 }
+
