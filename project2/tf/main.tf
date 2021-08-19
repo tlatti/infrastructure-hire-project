@@ -124,10 +124,10 @@ resource "aws_security_group" "all_worker_mgmt" {
 
 # Create EKS cluster
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = var.cluster_name
+  source = "terraform-aws-modules/eks/aws"
+  cluster_name = var.cluster_name
   cluster_version = "1.21"
-  subnets         = module.vpc.private_subnets
+  subnets = module.vpc.private_subnets
 
   tags = {
     environment = "prod"
@@ -141,26 +141,26 @@ module "eks" {
 
   worker_groups = [
     {
-      name                          = "worker-group-1"
-      instance_type                 = "t2.medium"
-      additional_userdata           = "echo foo bar"
-      asg_desired_capacity          = 1
+      name = "worker-group-1"
+      instance_type = "t2.medium"
+      additional_userdata = "echo foo bar"
+      asg_desired_capacity = 1
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     },
     {
-      name                          = "worker-group-2"
-      instance_type                 = "t2.medium"
-      additional_userdata           = "echo foo bar"
+      name = "worker-group-2"
+      instance_type = "t2.medium"
+      additional_userdata = "echo foo bar"
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
-      asg_desired_capacity          = 1
+      asg_desired_capacity = 1
     }
   ]
 }
 
 # This has to be set, otherwise we don't get the config ack
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  token                  = data.aws_eks_cluster_auth.cluster.token
+  host = data.aws_eks_cluster.cluster.endpoint
+  token = data.aws_eks_cluster_auth.cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
 }
 
@@ -174,10 +174,11 @@ data "aws_eks_cluster_auth" "cluster" {
 
 # Create ECR registry
 resource "aws_ecr_repository" "blaa" {
-	name = "tl-ecr-registry"
+	name = "vuln-scan-py"
 	image_tag_mutability = "MUTABLE"
 
 	tags = {
 	  environment = "prod"
 	}
 }
+
