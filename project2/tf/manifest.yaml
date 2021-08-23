@@ -8,6 +8,12 @@ spec:
     image: 709004257235.dkr.ecr.us-east-1.amazonaws.com/vuln-scan-py:latest
     env:
       - name: AWS_ACCESS_KEY_ID
-        value: "xxx"
+        valueFrom:
+          secretKeyRef:
+            name: s3-access
+            key: AWS_ACCESS_KEY_ID
       - name: AWS_SECRET_ACCESS_KEY
-        value: "xxx"
+        valueFrom:
+          secretKeyRef:
+            name: s3-access
+            key: AWS_SECRET_ACCESS_KEY
