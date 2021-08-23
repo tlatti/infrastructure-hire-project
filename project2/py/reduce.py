@@ -5,7 +5,7 @@ from collections import defaultdict
 import boto3
 
 s3 = boto3.client('s3')
-s3.download_file('tl-incidents2', 'example.json', 'example.json')
+s3.download_file('tl-incidents', 'example.json', 'example.json')
 
 with open('example.json') as f:
   data = json.load(f)
@@ -18,4 +18,4 @@ with open('results.json', 'w') as f:
   json.dump(vulncalc, f)
   f.write('\n')
 
-s3.upload_file('results.json', 'tl-incidents2', 'results.json')
+s3.upload_file('results.json', 'tl-incidents', 'results.json')
